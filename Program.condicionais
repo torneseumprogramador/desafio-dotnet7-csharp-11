@@ -1,0 +1,36 @@
+﻿Console.WriteLine("Digite um numero");
+var numero = 1;
+// var numero = Convert.ToInt32(Console.ReadLine());
+
+if (numero >= 18) 
+{
+    Console.WriteLine("Você digitou um numero maior que 18");
+}
+else if (numero >= 16) 
+{
+    Console.WriteLine("Você digitou um numero maior que 16 menor que 18");
+}
+else if (numero >= 10 && numero <= 15) 
+{
+    Console.WriteLine("Entre 10 e 15");
+}
+else
+{
+    Console.WriteLine("Opcao inválida");
+}
+
+switch (numero)
+{
+    case >= 18:
+        Console.WriteLine("Você digitou um numero maior que 18");
+        break;
+    case >= 16:
+        Console.WriteLine("Você digitou um numero maior que 16 menor que 18");
+        break;
+    case >= 10 and <= 15:
+        Console.WriteLine("Entre 10 e 15");
+        break;            
+    default:
+        Console.WriteLine("Opcao inválida");
+        break;
+}

@@ -1,0 +1,11 @@
+﻿class Program
+{
+    static void Main(string[] args)
+    {
+        foreach(var param in args)
+        {
+            Console.WriteLine("Olá - " + param);
+        }
+    }
+}
+

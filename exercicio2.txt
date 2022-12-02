@@ -1,0 +1,17 @@
+Temos a missão de contruir um pequeno sistema onde
+1 - iremos capturar a quantidade de litros de um posto de combustivel
+2 - Capture também o R$ valor do litro
+
+Quando chegar o cliente, perguntar o nome do mesmo e o R$ valor que o cliente
+deseja colocar de combustivel
+
+Baseado no valor que ele colocou de combustivel você irá tirar a quantidade 
+de litros do estoque
+
+No final do programa, mostrar para o cliente, a quantidade de litros que ele
+colocou em seu veículo
+
+e mostrar quantos litros sobrou no posto
+
+OBS: Não precisamos trabalhar com condicionais, iremos utilizar, somente
+o que aprendemos até agora, (uso de variveis, leitura e escrita na tela)
