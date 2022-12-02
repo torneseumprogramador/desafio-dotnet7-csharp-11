@@ -1,0 +1,17 @@
+PayBank é uma startup do sistema financeiro
+eles precisam do um programa que cadastre um cliente
+com o saldo do investimento do mesmo
+
+crie um programa que solicite o investidor e o saldo que deseja colocar
+após colocar o dinheiro do cliente (saldo), desconte uma taxa de 0.05%
+
+após esta operação, pergunte ao cliente e o mesmo deseja sacar o dinheiro
+se o cliente desejar sacar, coloque para o mesmo, digitar o valor do saque
+
+se o saque foi maior do que o valor depositado em conta - o desconto da taxa
+mostrar mensagem na tela, falando que o valor de resgate é mair do que o 
+saldo em conta.
+
+- desafio-rafael
+- challenge-alexandre
+- DesafioLuiz

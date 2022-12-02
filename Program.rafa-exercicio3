@@ -1,0 +1,31 @@
+﻿Console.WriteLine("============================[PayBank]============================");
+Console.WriteLine("Digite o nome do investidor: ");
+var nomeInvestidor = Console.ReadLine();
+
+Console.WriteLine($"{nomeInvestidor} informe o valor a ser investido: ");
+double valorInvestido = 0;
+double.TryParse(Console.ReadLine(), out valorInvestido);
+
+double taxa = valorInvestido * 0.05 / 100;
+
+valorInvestido = valorInvestido - taxa;
+
+Console.WriteLine($"{nomeInvestidor} você deseja sacar o dinheiro ? Digite 1 para Sim - 0 para Não");
+int sacarDinheiro = 0; 
+int.TryParse(Console.ReadLine(), out sacarDinheiro);
+if (Convert.ToBoolean(sacarDinheiro))
+{
+    Console.WriteLine("Informe o valor do saque: ");
+    double valorSaque = 0;
+    double.TryParse(Console.ReadLine(), out valorSaque);
+
+    if(valorSaque > valorInvestido)
+    {
+        Console.WriteLine($"O valor do resgate é maior que o saldo em conta: R$ {valorInvestido}");
+    }
+    else
+    {
+        Console.WriteLine("Saque realizado com sucesso.");
+        Console.WriteLine($"Saldo atualizado: R$ {valorInvestido - valorSaque}");
+    }
+}

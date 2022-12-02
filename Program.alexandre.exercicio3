@@ -1,0 +1,45 @@
+﻿Console.WriteLine("====== EXERCICIO 3 ======");
+Console.WriteLine("Prezado investidor, digite o seu nome: ");
+string? nomeInvestidor = Console.ReadLine();
+
+Console.WriteLine($"""
+Bem-vindo ao PagBank, sr(a) {nomeInvestidor}.
+Qual o saldo que deseja investir?
+""");
+double saldoInvestimento = Convert.ToDouble(Console.ReadLine());
+
+saldoInvestimento *= (1 - 0.05/100);
+
+Console.WriteLine($"O valor investido é de: {saldoInvestimento}");
+
+Console.WriteLine("""
+Deseja sacar dinheiro do seu investimento? 
+1-Sim
+2-Não
+""");
+int desejaSacar = Convert.ToInt16(Console.ReadLine());
+
+switch (desejaSacar)
+{
+    case 1:
+        Console.WriteLine("Qual o valor do seu investimento que deseja sacar?");
+        double valorSaque = Convert.ToDouble(Console.ReadLine());
+        switch (valorSaque)
+        {
+            case (valorSaque < saldoInvestimento):
+                Console.WriteLine($"""O valor do saque é maior do que o disponível em seu investimento.
+                    Valor investido: {saldoInvestimento.ToString("0.##")} reais
+                    Valor do saque: {valorSaque.ToString("0.##")} reais
+                Tente novamente.
+                """);
+                break;
+            default:
+                saldoInvestimento -= valorSaque;
+                Console.WriteLine($"""Valor sacado com sucesso.
+                    Valor investido: {saldoInvestimento.ToString("0.##")} reais
+                    Valor do saque: {valorSaque.ToString("0.##")} reais
+                """);
+        }
+    default:
+        Console.WriteLine($"""Prezado(a) {nomeInvestidor}, tenha um ótimo dia!""");
+}
