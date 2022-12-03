@@ -1,0 +1,15 @@
+Luana é uma professora de matemática e está querendo fazer um programa 
+para calcular a tabuada, em sua usabilidade Luana ira digitar o multiplicador
+e a quantidade total multiplicada.
+O programa irá mostrar um resultado como no exemplo:
+
+Digite o multiplicador:
+1
+Digite a quantidade multiplicada:
+3
+
+Resultado:
+1 x 1 = 1
+1 x 2 = 2
+1 x 3 = 3
+

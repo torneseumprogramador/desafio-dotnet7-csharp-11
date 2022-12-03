@@ -1,33 +1,61 @@
-﻿Console.WriteLine("PayBank");
-//investidor, saldo inicial, ao clocar o saldo descontar 0,05
-Console.WriteLine("Seja bem vindo ao PagBank, Qual seu nome por favor?");
-var nomeCliente = Console.ReadLine();
-Console.WriteLine("Digite o valor que deseja depositar?");
-var deposito = Convert.ToDouble(Console.ReadLine());
-var valorEmConta = deposito -(deposito * 0.05)/100;
+﻿while(true){
+    Console.Clear();
 
-Console.WriteLine($"""
-nome: {nomeCliente}
-deposito: {deposito}
-valor final: {valorEmConta}
-""");
+    Console.WriteLine("""
+    ================[ Bem vindo ao programa ]=================
+    O que você deseja fazer ?
+    1 - Exercício da tabuada
+    2 - Exercício número premiado
+    3 - Sair
+    """);
 
-Console.WriteLine($"""
-Deseja sacar o valor atual da conta? R$ {valorEmConta}
-Digite 1 para sim e 2 para não.
-""");
-var escolha = Convert.ToInt16(Console.ReadLine());
+    var opcao = Console.ReadLine()?.Trim();
+    Console.Clear();
 
-if(escolha ==1){
-    Console.Write("Qual valor deseja sacar? ");
-    var saque = Convert.ToDouble(Console.ReadLine());
+    bool sair = false;
 
-    if(saque <= valorEmConta){
-            valorEmConta-= saque;
-    Console.WriteLine($"Saque Realizado com Sucesso, saldo atual R$ {valorEmConta}");
-    }else{
-        Console.WriteLine($"Desculpe Valor superior ao disponivel na conta. Saldo atual R$ {valorEmConta}");
+    switch (opcao)
+    {
+        case "1":
+
+            Console.WriteLine("Prezada Luana, digite o multiplicador:");
+            int multiplicador = Convert.ToInt16(Console.ReadLine());
+
+            Console.WriteLine("Digite a quantidade multiplicada:");
+            int quantidadeMultiplicada = Convert.ToInt16(Console.ReadLine());
+
+            Console.Clear();
+            Console.WriteLine($"Tabuada do número {multiplicador}:");
+
+            for (int i = 1; i <= quantidadeMultiplicada; i++)
+            {
+                Console.WriteLine($"{multiplicador} x {i} = {multiplicador * i}");
+            }
+
+
+            break;
+        case "2":
+            Console.WriteLine("Digite o número premiado para que você possa ser nosso novo ganhador:");
+            int numero = Convert.ToInt16(Console.ReadLine());
+
+            Console.Clear();
+
+            if(numero == 2949)
+                Console.WriteLine("Parabéns você acertou o número premiado");
+            else
+                Console.WriteLine("Infelizmente você não acertou o número premiado");
+
+            break;
+        case "3":
+            sair = true;
+            break;
+        default:
+            Console.WriteLine("Opção inválida");
+            break;
     }
-}else{
-    Console.WriteLine("Obrigado por utilizar os serviços PayBank");
+
+    if(sair) break;
+    
+    Thread.Sleep(4000);
 }
+
