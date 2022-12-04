@@ -1,0 +1,13 @@
+Visando criar uma statup do sistema financeiro, iremos trabalhar
+para um cliente da empresa Lina
+A primera ação que você irá fazer é montar o menu de usabilidade
+para o uso da aplicação console.
+Exemplo:
+============[Seja bem vindo a empresa Lina]================
+O que você deseja fazer ?
+1 - Cadastrar o cliente
+2 - Ver conta corrente
+3 - Fazer credito em conta
+4 - Fazer débito em conta
+5 - Sair do sistema
+

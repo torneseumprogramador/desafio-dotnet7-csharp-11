@@ -1,61 +1,20 @@
-﻿while(true){
-    Console.Clear();
+﻿List<string[]> matrizDeNomes = new List<string[]>();
 
-    Console.WriteLine("""
-    ================[ Bem vindo ao programa ]=================
-    O que você deseja fazer ?
-    1 - Exercício da tabuada
-    2 - Exercício número premiado
-    3 - Sair
-    """);
+string[] cliente = new string[3];
+cliente[0] = "Danilo";
+cliente[1] = "(00)0000-0000";
+cliente[2] = "000.000.000-00";
+matrizDeNomes.Add(cliente);
 
-    var opcao = Console.ReadLine()?.Trim();
-    Console.Clear();
+string[] cliente2 = new string[3];
+cliente2[0] = "Michele";
+cliente2[1] = "(00)0000-0001";
+cliente2[2] = "000.000.000-01";
+matrizDeNomes.Add(cliente2);
 
-    bool sair = false;
-
-    switch (opcao)
-    {
-        case "1":
-
-            Console.WriteLine("Prezada Luana, digite o multiplicador:");
-            int multiplicador = Convert.ToInt16(Console.ReadLine());
-
-            Console.WriteLine("Digite a quantidade multiplicada:");
-            int quantidadeMultiplicada = Convert.ToInt16(Console.ReadLine());
-
-            Console.Clear();
-            Console.WriteLine($"Tabuada do número {multiplicador}:");
-
-            for (int i = 1; i <= quantidadeMultiplicada; i++)
-            {
-                Console.WriteLine($"{multiplicador} x {i} = {multiplicador * i}");
-            }
-
-
-            break;
-        case "2":
-            Console.WriteLine("Digite o número premiado para que você possa ser nosso novo ganhador:");
-            int numero = Convert.ToInt16(Console.ReadLine());
-
-            Console.Clear();
-
-            if(numero == 2949)
-                Console.WriteLine("Parabéns você acertou o número premiado");
-            else
-                Console.WriteLine("Infelizmente você não acertou o número premiado");
-
-            break;
-        case "3":
-            sair = true;
-            break;
-        default:
-            Console.WriteLine("Opção inválida");
-            break;
-    }
-
-    if(sair) break;
-    
-    Thread.Sleep(4000);
+foreach( string[] cli in matrizDeNomes )
+{
+    Console.WriteLine($"Nome: {cli[0]}");
+    Console.WriteLine($"Telefone: {cli[1]}");
+    Console.WriteLine($"CPF: {cli[2]}");
 }
-
