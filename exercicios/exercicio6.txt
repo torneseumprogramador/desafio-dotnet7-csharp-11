@@ -19,3 +19,7 @@ Você irá pedir os seguintes dados:
 - Nome
 - Telefone
 - Email
+
+
+Muito bem, chegou a hr de adicionarmos os créditos na conta do cliente
+para isso crie a terceira (3) opção de menu, agora fazendo com funções.
