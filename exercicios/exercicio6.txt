@@ -11,3 +11,11 @@ O que você deseja fazer ?
 4 - Fazer débito em conta
 5 - Sair do sistema
 
+Agora que vc construiu o menu iremos criar outra parte no sistema, 
+Fazer o cadastro do cliente.
+quando o usuário selecionar a opção 1
+Você irá pedir os seguintes dados:
+- id = new Guid()
+- Nome
+- Telefone
+- Email
