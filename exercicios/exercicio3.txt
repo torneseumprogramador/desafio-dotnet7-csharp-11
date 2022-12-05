@@ -12,6 +12,3 @@ se o saque foi maior do que o valor depositado em conta - o desconto da taxa
 mostrar mensagem na tela, falando que o valor de resgate é mair do que o 
 saldo em conta.
 
-- desafio-rafael
-- challenge-alexandre
-- DesafioLuiz

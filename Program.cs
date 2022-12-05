@@ -9,11 +9,10 @@ while (true)
     =================[Seja bem-vindo à empresa Lina]=================
     O que você deseja fazer?
     1 - Cadastrar o cliente
-    2 - Ver conta corrente
-    3 - Fazer crédito em conta
-    4 - Fazer débito em conta
+    2 - Ver extrato cliente
+    3 - Crédito em conta
+    4 - Retirada
     5 - Sair do sistema
-    6 - Mostrar
     """);
 
     var opcao = Console.ReadLine()?.Trim();
@@ -27,9 +26,8 @@ while (true)
             cadastrarCliente();
             break;
         case "2":
-
             Console.Clear();
-
+            mostrarContaCorrente();
             break;
         case "3":
             Console.Clear();
@@ -37,14 +35,10 @@ while (true)
             break;
         case "4":
             Console.Clear();
-
+            fazendoDebitoCliente();
             break;
         case "5":
             sair = true;
-            break;
-        
-        case "6":
-            mostrarClientes();
             break;
         default:
             Console.WriteLine("Opção inválida");
@@ -52,9 +46,41 @@ while (true)
     }
 
     if (sair) break;
-    Thread.Sleep(4000);
 }
 
+void mostrarContaCorrente()
+{
+    Console.Clear();
+
+    if(lista.Count == 0 || contaCorrete.Count == 0)
+    {
+        mensagem("Não existe clientes ou não existe movimentações em conta correte, cadastre o cliente e faça crédito em conta");
+        return;
+    }
+
+    var cliente = capturaCliente();
+
+    var contaCorrenteCliente = extratoCliente(cliente[0]);
+    Console.Clear();
+    Console.WriteLine("----------------------");
+    foreach(var contaCorrente in contaCorrenteCliente)
+    {
+        Console.WriteLine("Data: " + contaCorrente[2]);
+        Console.WriteLine("Valor: " + contaCorrente[1]);
+        Console.WriteLine("----------------------");
+    }
+    
+    Console.WriteLine($"""
+    O valor total da conta do cliente {cliente[1]} é de:
+    R$ {saldoCliente(cliente[0], contaCorrenteCliente)}
+
+
+    """);
+
+
+    Console.WriteLine("Digite enter para continuar");
+    Console.ReadLine();
+}
 
 void listarClientesCadastrados()
 {
@@ -130,6 +156,27 @@ void mensagem(string msg)
     Thread.Sleep(1500);
 }
 
+void fazendoDebitoCliente(){
+    Console.Clear();
+    var cliente = capturaCliente();
+    Console.Clear();
+    Console.WriteLine("Digite o valor de retirada:");
+    double credito = Convert.ToDouble(Console.ReadLine());
+    string[] creditoConta = new string[3];
+
+    creditoConta[0] = cliente[0];
+    creditoConta[1] = $"-{credito}";
+    creditoConta[2] = DateTime.Now.ToString("dd/MM/yyyy HH:MM");
+
+    contaCorrete.Add(creditoConta);
+
+    var idCliente = cliente[0];
+    mensagem($"""
+    Retirada realizada com sucesso ...
+    Saldo do cliente {cliente[1]} é de R$ {saldoCliente(idCliente)}
+    """);
+}
+
 
 void adicionarCreditoCliente()
 {
@@ -138,10 +185,11 @@ void adicionarCreditoCliente()
     Console.Clear();
     Console.WriteLine("Digite o valor do crédito:");
     double credito = Convert.ToDouble(Console.ReadLine());
-    string[] creditoConta = new string[2];
+    string[] creditoConta = new string[3];
 
     creditoConta[0] = cliente[0];
     creditoConta[1] = credito.ToString();
+    creditoConta[2] = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
 
     contaCorrete.Add(creditoConta);
 
@@ -152,10 +200,19 @@ void adicionarCreditoCliente()
     """);
 }
 
-double saldoCliente(string idCliente)
+
+List<string[]> extratoCliente(string idCliente)
 {
     var contaCorreteCliente = contaCorrete.FindAll(cc => cc[0] == idCliente);
-    if(contaCorreteCliente.Count == 0) return 0;
+    if(contaCorreteCliente.Count == 0) return new List<string[]>();
+
+    return contaCorreteCliente;
+}
+
+double saldoCliente(string idCliente, List<string[]>? contaCorreteCliente = null)
+{
+    if(contaCorreteCliente == null)
+        contaCorreteCliente = extratoCliente(idCliente);
 
     return contaCorreteCliente.Sum(cc => Convert.ToDouble(cc[1]));
 }
@@ -163,6 +220,7 @@ double saldoCliente(string idCliente)
 string[] capturaCliente()
 {
     listarClientesCadastrados();
+    Console.WriteLine("Digite o ID do cliente");
     var idCliente = Console.ReadLine()?.Trim();
     string[]? cliente = lista.Find(c => c[0] == idCliente);
 
