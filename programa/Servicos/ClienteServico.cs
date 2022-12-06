@@ -1,8 +1,8 @@
-using Logica.Models;
+using Programa.Models;
 
-namespace Logica.Servicos;
+namespace Programa.Servicos;
 
-class ClienteServico
+public class ClienteServico
 {
     private ClienteServico() { }
 

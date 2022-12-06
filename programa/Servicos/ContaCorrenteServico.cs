@@ -1,8 +1,8 @@
-using Logica.Models;
+using Programa.Models;
 
-namespace Logica.Servicos;
+namespace Programa.Servicos;
 
-class ContaCorrenteServico
+public class ContaCorrenteServico
 {
     private ContaCorrenteServico() { }
 
