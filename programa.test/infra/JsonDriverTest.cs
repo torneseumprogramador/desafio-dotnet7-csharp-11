@@ -43,6 +43,6 @@ public class JsonDriverTest
 
         await jsonDriver.Salvar(contaCorrente);
 
-        var existe = File.Exists(this.caminhoArquivoTest + "/clientes.json");
+        var existe = File.Exists(this.caminhoArquivoTest + "/contacorrentes.json");
     }
 }
