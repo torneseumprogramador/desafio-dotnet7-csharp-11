@@ -489,6 +489,9 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+bando-de-dados-em-arquivos/**.csv
+bando-de-dados-em-arquivos/**.json
+
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
