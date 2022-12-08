@@ -9,8 +9,10 @@ public class ContaCorrenteTest
     [TestMethod]
     public void TestandoPropriedadesDaClasse()
     {
-        var contaCorrenteTest = new ContaCorrente();
-        contaCorrenteTest.IdCliente = "234321";
+        var contaCorrenteTest = new ContaCorrente() { 
+            Id = Guid.NewGuid().ToString(),
+            IdCliente = "234321" 
+        };
         contaCorrenteTest.Valor = 1;
         contaCorrenteTest.Data = DateTime.Now;
 

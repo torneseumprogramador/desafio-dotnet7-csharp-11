@@ -1,11 +1,11 @@
 namespace Programa.Infra.Interfaces;
-public interface IPersistencia
+public interface IPersistencia<T>
 {
-    Task Salvar(object objeto);
-    void Excluir(object objeto);
-    void Alterar(string Id, object objeto);
-    List<Object> Todos();
-    List<Object> BuscaPorId(string Id);
+    Task Salvar(T objeto);
+    Task ExcluirTudo();
+    Task Excluir(T objeto);
+    Task<List<T>> Todos();
+    Task<T> BuscaPorId(string id);
 
     string GetLocalGravacao();
 }

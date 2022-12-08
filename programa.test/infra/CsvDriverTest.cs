@@ -10,16 +10,15 @@ public class CsvDriverTest
     {
         var caminho = Environment.GetEnvironmentVariable("LOCAL_GRAVACAO_TEST_DESAFIO_DOTNET7") ?? "/tmp";
         this.caminhoArquivoTest = caminho;
-        this.csvDriver = new CsvDriver(this.caminhoArquivoTest);
     }
 
     private string caminhoArquivoTest;
-    private CsvDriver csvDriver;
 
     [TestMethod]
     public async Task TestandoDriverCsvParaClientes()
     {
-       
+        var csvDriver = new CsvDriver<Cliente>(this.caminhoArquivoTest);
+
         var cliente = new Cliente(){
             Id = Guid.NewGuid().ToString(),
             Nome = "Danilo",
@@ -27,7 +26,7 @@ public class CsvDriverTest
             Telefone = "(11)9999-9999"
         };
 
-        await this.csvDriver.Salvar(cliente);
+        await csvDriver.Salvar(cliente);
 
         var existe = File.Exists(this.caminhoArquivoTest + "/clientes.csv");
     }
@@ -35,7 +34,10 @@ public class CsvDriverTest
     [TestMethod]
     public async Task TestandoDriverCsvParaContaCorrente()
     {
+        var csvDriver = new CsvDriver<ContaCorrente>(this.caminhoArquivoTest);
+        
         var contaCorrente = new ContaCorrente(){
+            Id = Guid.NewGuid().ToString(),
             IdCliente = Guid.NewGuid().ToString(),
             Valor = 200,
             Data = DateTime.Now

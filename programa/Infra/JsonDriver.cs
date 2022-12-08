@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Text.Json;
 using Programa.Infra.Interfaces;
 
 namespace Programa.Infra;
 
-public class JsonDriver : IPersistencia
+public class JsonDriver<T> : IPersistencia<T>
 {
     public JsonDriver(string localGravacao)
     {
@@ -17,31 +19,79 @@ public class JsonDriver : IPersistencia
         return this.localGravacao;
     }
 
-    public async Task Salvar(object objeto)
+    public async Task Salvar(T objeto)
     {
-        string jsonString = JsonSerializer.Serialize(objeto);
+        if(objeto == null) return;
 
-        var nome = objeto.GetType().Name.ToLower();
+        var lista = await Todos();
+        var id = objeto.GetType().GetProperty("Id")?.GetValue(objeto)?.ToString();
+        
+        if(string.IsNullOrEmpty(id)) return;
+
+        var objLista = buscaListaId(lista, id);
+        if(objLista == null || objLista.GetType().GetProperty("Id")?.GetValue(objLista)?.ToString() == null) 
+            lista.Add(objeto);
+        else atualizaPropriedades(objeto, objLista);
+
+        await salvarLista(lista);
+    }
+
+    private async Task salvarLista(List<T> lista)
+    {
+        string jsonString = JsonSerializer.Serialize(lista);
+        var nome = typeof(T).Name.ToLower();
         await File.WriteAllTextAsync($"{this.GetLocalGravacao()}/{nome}s.json", jsonString);
     }
 
-    public void Alterar(string Id, object objeto)
+    private void atualizaPropriedades(T objetoDe, T objListaPara)
     {
-        throw new NotImplementedException();
+        if(objetoDe == null || objListaPara == null) return;
+
+        foreach(var propDe in objetoDe.GetType().GetProperties())
+        {
+            var propPara = objListaPara.GetType().GetProperty(propDe.Name);
+            if(propPara != null)
+            {
+                var valorDe = propDe.GetValue(objetoDe);
+                propPara.SetValue(objListaPara, valorDe);
+            }
+        }
     }
 
-    public List<object> BuscaPorId(string Id)
+    public async Task<List<T>> Todos()
     {
-        throw new NotImplementedException();
+        var nome = typeof(T).Name.ToLower();
+
+        var arquivo = $"{this.GetLocalGravacao()}/{nome}s.json";
+
+        if(!File.Exists(arquivo)) return new List<T>();
+
+        string jsonString = await File.ReadAllTextAsync(arquivo);
+        var lista = JsonSerializer.Deserialize<List<T>>(jsonString);
+        return lista ?? new List<T>();
     }
 
-    public void Excluir(object objeto)
+    public async Task<T> BuscaPorId(string id)
     {
-        throw new NotImplementedException();
+        var lista = await Todos();
+        return buscaListaId(lista, id);
     }
 
-    public List<object> Todos()
+    private T buscaListaId([NotNull] List<T> lista, string id)
     {
-        throw new NotImplementedException();
+        return lista.Find(o => o.GetType().GetProperty("Id")?.GetValue(o)?.ToString() == id);
+    }
+
+    public async Task Excluir(T objeto)
+    {
+        var lista = await Todos();
+        lista.Remove(objeto);
+        await salvarLista(lista);
+    }
+
+    public async Task ExcluirTudo()
+    {
+        var nome = typeof(T).Name;
+        await File.WriteAllTextAsync($"{this.GetLocalGravacao()}/{nome}s.json", "[]");
     }
 }

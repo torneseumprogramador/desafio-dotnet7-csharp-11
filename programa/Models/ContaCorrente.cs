@@ -1,8 +1,9 @@
 namespace Programa.Models;
 
-public struct ContaCorrente
+public record ContaCorrente
 {
-    public string IdCliente { get; set; }
-    public double Valor { get; set; }
-    public DateTime Data { get; set; }
+    public required string Id { get; set; }
+    public required string IdCliente { get; set; }
+    public double Valor { get; set; } = default!;
+    public DateTime Data { get; set; } = default!;
 }

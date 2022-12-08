@@ -4,7 +4,7 @@ using Programa.Infra.Interfaces;
 
 namespace Programa.Infra;
 
-public class CsvDriver : IPersistencia
+public class CsvDriver<T> : IPersistencia<T>
 {
     public CsvDriver(string localGravacao)
     {
@@ -18,18 +18,18 @@ public class CsvDriver : IPersistencia
         return this.localGravacao;
     }
 
-    public async Task Salvar(object objeto)
+    public async Task Salvar(T objeto)
     {
         var linhasDoCsv = new List<string>();
-        var props = TypeDescriptor.GetProperties(objeto).OfType<PropertyDescriptor>();
+        var props = typeof(T).GetProperties();
         var header = string.Join(";", props.ToList().Select(x => x.Name));
         
         linhasDoCsv.Add(header);
 
-        var lista = new List<object>();
+        var lista = new List<T>();
         lista.Add(objeto);
 
-        var valueLines = lista.Select(row => string.Join(";", header.Split(';').Select(a => row.GetType()?.GetProperty(a)?.GetValue(row, null))));
+        var valueLines = lista.Select(row => string.Join(";", header.Split(';').Select(a => row?.GetType()?.GetProperty(a)?.GetValue(row, null))));
         linhasDoCsv.AddRange(valueLines);
 
         var csvString = string.Empty;
@@ -38,26 +38,26 @@ public class CsvDriver : IPersistencia
             csvString += linha + "\n";
         }
 
-        var nome = objeto.GetType().Name.ToLower();
+        var nome = objeto?.GetType().Name.ToLower();
         await File.WriteAllTextAsync($"{this.GetLocalGravacao()}/{nome}s.csv", csvString);
     }
 
-    public void Alterar(string Id, object objeto)
+    public async Task<T> BuscaPorId(string id)
     {
         throw new NotImplementedException();
     }
 
-    public List<object> BuscaPorId(string Id)
+    public async Task Excluir(T objeto)
     {
         throw new NotImplementedException();
     }
 
-    public void Excluir(object objeto)
+    public async Task<List<T>> Todos()
     {
         throw new NotImplementedException();
     }
 
-    public List<object> Todos()
+    Task IPersistencia<T>.ExcluirTudo()
     {
         throw new NotImplementedException();
     }

@@ -163,6 +163,7 @@ void fazendoDebitoCliente(){
     double credito = Convert.ToDouble(Console.ReadLine());
 
     ContaCorrenteServico.Get().Lista.Add(new ContaCorrente{
+        Id = Guid.NewGuid().ToString(),
         IdCliente = cliente.Id,
         Valor = credito * -1,
         Data = DateTime.Now
@@ -184,6 +185,7 @@ void adicionarCreditoCliente()
     double credito = Convert.ToDouble(Console.ReadLine());
 
     ContaCorrenteServico.Get().Lista.Add(new ContaCorrente{
+        Id = Guid.NewGuid().ToString(),
         IdCliente = cliente.Id,
         Valor = credito,
         Data = DateTime.Now

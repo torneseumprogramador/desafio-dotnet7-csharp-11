@@ -14,6 +14,7 @@ public class ClienteServicoTest
         Assert.IsNotNull(ClienteServico.Get().Lista);
 
         ClienteServico.Get().Lista.Add(new Cliente(){
+            Id = "23421",
             Nome = "teste"
         });
 

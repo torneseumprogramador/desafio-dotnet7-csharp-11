@@ -29,6 +29,7 @@ public class ContaCorrenteServicoTest
         foreach(var valor in valores)
         {
             ContaCorrenteServico.Get().Lista.Add(new ContaCorrente(){
+                Id = Guid.NewGuid().ToString(),
                 IdCliente = idCliente,
                 Valor = valor,
                 Data = DateTime.Now
@@ -44,6 +45,7 @@ public class ContaCorrenteServicoTest
         Assert.IsNotNull(ContaCorrenteServico.Get().Lista);
 
         ContaCorrenteServico.Get().Lista.Add(new ContaCorrente(){
+            Id = Guid.NewGuid().ToString(),
             IdCliente = "2122222"
         });
 
