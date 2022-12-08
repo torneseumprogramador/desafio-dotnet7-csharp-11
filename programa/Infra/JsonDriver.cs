@@ -76,13 +76,13 @@ public class JsonDriver<T> : IPersistencia<T>
         var lista = await Todos();
         return buscaListaId(lista, id);
     }
-    private T? buscaListaId([NotNull] List<T> lista, string id)
+    private T? buscaListaId(List<T> lista, string id)
     {
         return lista.Find(o => o?.GetType().GetProperty("Id")?.GetValue(o)?.ToString() == id);
     }
 
     // ANTES
-    // private T buscaListaId([NotNull] List<T> lista, string id)
+    // private T buscaListaId(List<T> lista, string id)
     // {
     //     return lista.Find(o => o.GetType().GetProperty("Id")?.GetValue(o)?.ToString() == id);
     // }
