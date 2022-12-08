@@ -71,16 +71,21 @@ public class JsonDriver<T> : IPersistencia<T>
         return lista ?? new List<T>();
     }
 
-    public async Task<T> BuscaPorId(string id)
+    public async Task<T?> BuscaPorId(string id)
     {
         var lista = await Todos();
         return buscaListaId(lista, id);
     }
-
-    private T buscaListaId([NotNull] List<T> lista, string id)
+    private T? buscaListaId([NotNull] List<T> lista, string id)
     {
-        return lista.Find(o => o.GetType().GetProperty("Id")?.GetValue(o)?.ToString() == id);
+        return lista.Find(o => o?.GetType().GetProperty("Id")?.GetValue(o)?.ToString() == id);
     }
+
+    // ANTES
+    // private T buscaListaId([NotNull] List<T> lista, string id)
+    // {
+    //     return lista.Find(o => o.GetType().GetProperty("Id")?.GetValue(o)?.ToString() == id);
+    // }
 
     public async Task Excluir(T objeto)
     {

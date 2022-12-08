@@ -5,7 +5,7 @@ public interface IPersistencia<T>
     Task ExcluirTudo();
     Task Excluir(T objeto);
     Task<List<T>> Todos();
-    Task<T> BuscaPorId(string id);
+    Task<T?> BuscaPorId(string id);
 
     string GetLocalGravacao();
 }

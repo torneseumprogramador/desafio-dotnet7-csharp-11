@@ -91,7 +91,7 @@ public class JsonDriverTest
 
         var clienteDb = await jsonDriver.BuscaPorId(cliente.Id);
 
-        Assert.AreEqual(cliente.Nome, clienteDb.Nome);
+        Assert.AreEqual(cliente.Nome, clienteDb?.Nome);
     }
 
     [TestMethod]
@@ -114,7 +114,7 @@ public class JsonDriverTest
 
         var clienteDb = await jsonDriver.BuscaPorId(cliente.Id);
 
-        Assert.AreEqual("Danilo Santos", clienteDb.Nome);
+        Assert.AreEqual("Danilo Santos", clienteDb?.Nome);
     }
 
     [TestMethod]
@@ -133,7 +133,7 @@ public class JsonDriverTest
 
         var objDb = await jsonDriver.BuscaPorId(contaCorrente.Id);
         Assert.IsNotNull(objDb);
-        Assert.IsNotNull(objDb.Id);
+        Assert.IsNotNull(objDb?.Id);
 
         await jsonDriver.Excluir(contaCorrente);
 

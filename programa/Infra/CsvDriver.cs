@@ -42,7 +42,7 @@ public class CsvDriver<T> : IPersistencia<T>
         await File.WriteAllTextAsync($"{this.GetLocalGravacao()}/{nome}s.csv", csvString);
     }
 
-    public Task<T> BuscaPorId(string id)
+    public Task<T?> BuscaPorId(string id)
     {
         throw new NotImplementedException();
     }
