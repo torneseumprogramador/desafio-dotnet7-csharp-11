@@ -2,15 +2,17 @@ using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Programa.Models;
 using Programa.Infra;
+using Programa.Test.infa.Entidades;
+using MongoDB.Bson;
 
-namespace Programa.Test.Infra;
+namespace Programa.Test.infa;
 
 [TestClass]
-public class JsonDriverTest
+public class MongoDbDriverTest
 {
-    public JsonDriverTest()
+    public MongoDbDriverTest()
     {
-        var caminho = Environment.GetEnvironmentVariable("LOCAL_GRAVACAO_TEST_DESAFIO_DOTNET7") ?? "/tmp";
+        var caminho = Environment.GetEnvironmentVariable("LOCAL_GRAVACAO_TEST_DESAFIO_DOTNET7_MYSQL") ?? "mongodb://localhost#desafio21dias_dotnet7";
         this.caminhoArquivoTest = caminho;
     }
 
@@ -19,17 +21,16 @@ public class JsonDriverTest
     [TestInitialize()]
     public async Task Startup()
     {
-        await new JsonDriver<Cliente>(this.caminhoArquivoTest).ExcluirTudo();
-        await new JsonDriver<ContaCorrente>(this.caminhoArquivoTest).ExcluirTudo();
+        await new MongoDbDriver<ClienteMongoDb>(this.caminhoArquivoTest).ExcluirTudo();
+        await new MongoDbDriver<ContaCorrenteMongoDb>(this.caminhoArquivoTest).ExcluirTudo();
     }
 
     [TestMethod]
     public async Task TestandoDriverJsonParaClientes()
     {
-        var jsonDriver = new JsonDriver<Cliente>(this.caminhoArquivoTest);
+        var jsonDriver = new MongoDbDriver<ClienteMongoDb>(this.caminhoArquivoTest);
        
-        var cliente = new Cliente(){
-            Id = Guid.NewGuid().ToString(),
+        var cliente = new ClienteMongoDb(){
             Nome = "Danilo",
             Email = "danilo@teste.com",
             Telefone = "(11)9999-9999"
@@ -43,11 +44,10 @@ public class JsonDriverTest
     [TestMethod]
     public async Task TestandoDriverJsonParaContaCorrente()
     {
-        var jsonDriver = new JsonDriver<ContaCorrente>(this.caminhoArquivoTest);
+        var jsonDriver = new MongoDbDriver<ContaCorrenteMongoDb>(this.caminhoArquivoTest);
 
-        var contaCorrente = new ContaCorrente(){
-            Id = Guid.NewGuid().ToString(),
-            IdCliente = Guid.NewGuid().ToString(),
+        var contaCorrente = new ContaCorrenteMongoDb(){
+            IdCliente = ObjectId.GenerateNewId(),
             Valor = 200,
             Data = DateTime.Now
         };
@@ -60,11 +60,10 @@ public class JsonDriverTest
     [TestMethod]
     public async Task TestandoBuscaDeTodasAsEntidades()
     {
-        var jsonDriver = new JsonDriver<ContaCorrente>(this.caminhoArquivoTest);
+        var jsonDriver = new MongoDbDriver<ContaCorrenteMongoDb>(this.caminhoArquivoTest);
         
-        var contaCorrente = new ContaCorrente(){
-            Id = Guid.NewGuid().ToString(),
-            IdCliente = Guid.NewGuid().ToString(),
+        var contaCorrente = new ContaCorrenteMongoDb(){
+            IdCliente = ObjectId.GenerateNewId(),
             Valor = 200,
             Data = DateTime.Now
         };
@@ -79,10 +78,9 @@ public class JsonDriverTest
     [TestMethod]
     public async Task TestandobuscaPorId()
     {
-        var jsonDriver = new JsonDriver<Cliente>(this.caminhoArquivoTest);
+        var jsonDriver = new MongoDbDriver<ClienteMongoDb>(this.caminhoArquivoTest);
         
-        var cliente = new Cliente(){
-            Id = Guid.NewGuid().ToString(),
+        var cliente = new ClienteMongoDb(){
             Nome = "Danilo " + DateTime.Now,
             Email = "danilo@teste.com",
             Telefone = "(11)9999-9999"
@@ -90,7 +88,7 @@ public class JsonDriverTest
 
         await jsonDriver.Salvar(cliente);
 
-        var clienteDb = await jsonDriver.BuscaPorId(cliente.Id);
+        var clienteDb = await jsonDriver.BuscaPorId(cliente.Id.ToString());
 
         Assert.AreEqual(cliente.Nome, clienteDb?.Nome);
     }
@@ -98,10 +96,9 @@ public class JsonDriverTest
     [TestMethod]
     public async Task TestandoAlteracaoDeEntidade()
     {
-        var jsonDriver = new JsonDriver<Cliente>(this.caminhoArquivoTest);
+        var jsonDriver = new MongoDbDriver<ClienteMongoDb>(this.caminhoArquivoTest);
         
-        var cliente = new Cliente(){
-            Id = Guid.NewGuid().ToString(),
+        var cliente = new ClienteMongoDb(){
             Nome = "Danilo",
             Email = "danilo@teste.com",
             Telefone = "(11)9999-9999"
@@ -113,7 +110,7 @@ public class JsonDriverTest
 
         await jsonDriver.Salvar(cliente);
 
-        var clienteDb = await jsonDriver.BuscaPorId(cliente.Id);
+        var clienteDb = await jsonDriver.BuscaPorId(cliente.Id.ToString());
 
         Assert.AreEqual("Danilo Santos", clienteDb?.Nome);
     }
@@ -121,24 +118,23 @@ public class JsonDriverTest
     [TestMethod]
     public async Task TestandoExcluirEntidade()
     {
-        var jsonDriver = new JsonDriver<ContaCorrente>(this.caminhoArquivoTest);
+        var jsonDriver = new MongoDbDriver<ContaCorrenteMongoDb>(this.caminhoArquivoTest);
         
-        var contaCorrente = new ContaCorrente(){
-            Id = Guid.NewGuid().ToString(),
-            IdCliente = Guid.NewGuid().ToString(),
+        var contaCorrente = new ContaCorrenteMongoDb(){
+            IdCliente = ObjectId.GenerateNewId(),
             Valor = 200,
             Data = DateTime.Now
         };
 
         await jsonDriver.Salvar(contaCorrente);
 
-        var objDb = await jsonDriver.BuscaPorId(contaCorrente.Id);
+        var objDb = await jsonDriver.BuscaPorId(contaCorrente.Id.ToString());
         Assert.IsNotNull(objDb);
         Assert.IsNotNull(objDb?.Id);
 
         await jsonDriver.Excluir(contaCorrente);
 
-        var objDb2 = await jsonDriver.BuscaPorId(contaCorrente.Id);
+        var objDb2 = await jsonDriver.BuscaPorId(contaCorrente.Id.ToString());
         Assert.IsNull(objDb2);
     }
 }
