@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Programa.Infra;
 using Programa.Models;
 using Programa.Servicos;
 
@@ -8,16 +9,14 @@ namespace Programa.Test.Models;
 public class ClienteServicoTest
 {
     [TestMethod]
-    public void TestandoUnicaInstanciaDoServico()
+    public void TestandoInjecaoDeDependencia()
     {
-        Assert.IsNotNull(ClienteServico.Get());
-        Assert.IsNotNull(ClienteServico.Get().Lista);
+        var clienteServicoJson = new ClienteServico(new JsonDriver<Cliente>("bla"));
+        Assert.IsNotNull(clienteServicoJson);
+        Assert.IsNotNull(clienteServicoJson.Persistencia);
 
-        ClienteServico.Get().Lista.Add(new Cliente(){
-            Id = "23421",
-            Nome = "teste"
-        });
-
-        Assert.AreEqual(1, ClienteServico.Get().Lista.Count);
+        var clienteServicoCsv = new ClienteServico(new CsvDriver<Cliente>("bla"));
+        Assert.IsNotNull(clienteServicoCsv);
+        Assert.IsNotNull(clienteServicoCsv.Persistencia);
     }
 }
